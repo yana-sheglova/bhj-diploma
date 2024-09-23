@@ -10,7 +10,7 @@ class Sidebar {
   static init() {
     this.initAuthLinks();
     this.initToggleButton();
-  }
+  };
 
   /**
    * Отвечает за скрытие/показа боковой колонки:
@@ -18,8 +18,18 @@ class Sidebar {
    * при нажатии на кнопку .sidebar-toggle
    * */
   static initToggleButton() {
+		document.addEventListener('DOMContentLoaded', function() {
+				let toggleBtn = document.querySelector('.sidebar-toggle');
+				let body = document.body;
 
-  }
+				toggleBtn.addEventListener('click', function(e) {
+					e.preventDefault();
+					body.classList.toggle('sidebar-open');
+					body.classList.toggle('sidebar-collapse');
+				});
+			});
+    };
+	};
 
   /**
    * При нажатии на кнопку входа, показывает окно входа
@@ -30,5 +40,5 @@ class Sidebar {
    * */
   static initAuthLinks() {
 
-  }
-}
+  };
+};
