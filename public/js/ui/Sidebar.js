@@ -8,9 +8,11 @@ class Sidebar {
    * Запускает initAuthLinks и initToggleButton
    * */
   static init() {
-    this.initAuthLinks();
-    this.initToggleButton();
-  };
+    document.addEventListener('DOMContentLoaded', () => {
+      this.initAuthLinks();
+      this.initToggleButton();
+    });
+  }
 
   /**
    * Отвечает за скрытие/показа боковой колонки:
@@ -18,18 +20,19 @@ class Sidebar {
    * при нажатии на кнопку .sidebar-toggle
    * */
   static initToggleButton() {
-		document.addEventListener('DOMContentLoaded', function() {
-				let toggleBtn = document.querySelector('.sidebar-toggle');
-				let body = document.body;
+		let toggleBtn = document.querySelector('.sidebar-toggle');
+		let body = document.body;
 
-				toggleBtn.addEventListener('click', function(e) {
-					e.preventDefault();
-					body.classList.toggle('sidebar-open');
-					body.classList.toggle('sidebar-collapse');
-				});
-			});
-    };
-	};
+    if(toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        body.classList.toggle('sidebar-open');
+        body.classList.toggle('sidebar-collapse');
+      });
+    } else {
+      console.warn('Toggle button not found.');
+    }
+  };
 
   /**
    * При нажатии на кнопку входа, показывает окно входа
@@ -39,38 +42,40 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
-    document.addEventListener('DOMContentLoaded', function() {
-      let registerBtn = document.querySelector('.menu-item_register');
-      let loginBtn = document.querySelector('.menu-item_login');
-      let logoutBtn = document.querySelector('.menu-item_logout');
+    let registerBtn = document.querySelector('.menu-item_register');
+    let loginBtn = document.querySelector('.menu-item_login');
+    let logoutBtn = document.querySelector('.menu-item_logout');
 
-      if(registerBtn) {
-        registerBtn.addEventListener('click', function() {
-          const modal = App.getModal('modal-register');
-          if (modal) {
-            modal.open();
+    if(registerBtn) {
+      registerBtn.addEventListener('click', () => {
+        const modal = App.getModal('register');
+        if (modal) {
+          modal.open();
+        }
+      });
+    } else {
+      console.warn('Register button not found.');
+    }
+
+    if (loginBtn) {
+      loginBtn.addEventListener('click', () => {
+        const modal = App.getModal('login');
+        if (modal) {
+          modal.open();
+        }
+      });
+    } else {
+      console.warn('Login button not found.');
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        User.logout().then(response => {
+          if (response.success) {
+            App.setState('init');
           }
-        })
-      }
-
-      if (loginBtn) {
-        loginBtn.addEventListener('click', function() {
-          const modal = App.getModal('modal-login');
-          if (modal) {
-            modal.open();
-          }
-        })
-      }
-
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-          User.logout().then(response => {
-            if (response.succes) {
-              App.setState('init');
-            }
-          });
         });
-      }
-    });
+      });
+    }
   }
-};
+}

@@ -15,9 +15,7 @@ class Entity {
 			data: data,
 			method: 'GET',
 			callback: (err, response) => {
-				if (callback) {
-					callback(err, response);
-				}
+				callback ? callback(err, response) : null;
 			}
 		});
 	};
@@ -31,11 +29,9 @@ class Entity {
 		createRequest({
 			url: this.URL,
 			data: data,
-			method: 'PUT',
+			method: 'POST',
 			callback: (err, response) => {
-				if (callback) {
-					callback(err, response);
-				}
+				callback ? callback(err, response) : null;
 			}
 		});
 	};
@@ -50,9 +46,7 @@ class Entity {
 			data: data,
 			method: 'DELETE',
 			callback: (err, response) => {
-				if (callback) {
-					callback(err, response);
-				}
+				callback ? callback(err, response) : null;
 			}
 		});
 	};

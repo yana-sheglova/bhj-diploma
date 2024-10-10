@@ -10,7 +10,8 @@ class User {
 	 * локальном хранилище.
 	 * */
 	static setCurrent(user) {
-		localStorage.user = JSON.stringify(user);
+		localStorage.setItem('user', JSON.stringify(user));
+		console.log(localStorage.getItem('user'));
 	};
 
 	/**
@@ -26,8 +27,8 @@ class User {
 	 * из локального хранилища
 	 * */
 	static current() {
-		return JSON.parse(localStorage.user || 'underfined')
-	};
+		return JSON.parse(localStorage.getItem('user' || 'undefined'))
+	}
 
 	/**
 	 * Получает информацию о текущем
@@ -42,16 +43,15 @@ class User {
 					callback(err);
 					return;
 				}
-				if (response.succes) {
+				if (response && response.success) {
 					this.setCurrent(response.user);
-					callback(null, response);
 				} else {
 					this.unsetCurrent();
-					callback(null, response);
 				}
+				callback(null, response);
 			}
-		})
-	};
+		});
+	}
 
 	/**
 	 * Производит попытку авторизации.
@@ -61,18 +61,25 @@ class User {
 	 * */
 	static login(data, callback) {
 		createRequest({
-			url: this.URL + '/login',
+			url: `${this.URL}/login`,
 			method: 'POST',
-			responseType: 'json',
 			data,
 			callback: (err, response) => {
-				if (response && response.user) {
-					this.setCurrent(response.user);
+				if (err) {
+					callback(err);
+					return;
 				}
-				callback(err, response);
+				try {
+					if (response && response.user) {
+						this.setCurrent(response.user);
+					}
+					callback(null, response);
+				} catch (error) {
+					callback(new Error(`Ошибка установки текущего пользователя: ${error.message}`));
+				}
 			}
 		});
-	};
+	}
 
 	/**
 	 * Производит попытку регистрации пользователя.
@@ -90,7 +97,7 @@ class User {
 					callback(err);
 					return;
 				}
-				if (response.sucess) {
+				if (response.success) {
 					this.setCurrent(response.user);
 				}
 				callback(null, response);
@@ -105,18 +112,17 @@ class User {
 	static logout(callback) {
 		createRequest({
 			url: `${this.URL}/logout`,
-			data,
 			method: 'POST',
 			callback: (err, response) => {
 				if (err) {
 					callback(err);
 					return;
 				}
-				if (response.sucess) {
+				if (response && response.success) {
 					this.unsetCurrent();
 				}
 				callback(null, response);
 			}
 		});
-	};
+	}
 };

@@ -5,10 +5,13 @@
 
 function createRequest({
 	url,
-	data,
-	method,
+	data = {},
+	method = 'GET',
 	callback
 }) {
+	if (!url) {
+		return callback(new Error('URL не указан'));
+	}
 	const xhr = new XMLHttpRequest();
 
 	if (method === 'GET' && data) {
