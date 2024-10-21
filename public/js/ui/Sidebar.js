@@ -70,11 +70,18 @@ class Sidebar {
 
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
-        User.logout().then(response => {
-          if (response.success) {
-            App.setState('init');
-          }
-        });
+        const response = User.logout();
+        if (response && typeof response.then === 'function') {
+          response.then(response => {
+            if (response.success) {
+              App.setState('init');
+            }
+          }).catch(error => {
+            console.error('Logout error:', error);
+          });
+        } else {
+          console.error('User.logout does not return a promise');
+        }
       });
     }
   }

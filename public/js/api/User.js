@@ -27,7 +27,7 @@ class User {
 	 * из локального хранилища
 	 * */
 	static current() {
-		return JSON.parse(localStorage.getItem('user' || 'undefined'))
+		return JSON.parse(localStorage.getItem('user')) || null;
 	}
 
 	/**
@@ -35,6 +35,10 @@ class User {
 	 * авторизованном пользователе.
 	 * */
 	static fetch(callback) {
+		if (typeof callback !== 'function') {
+			console.error('callback is not a function');
+			return;
+		}
 		createRequest({
 			url: `${this.URL}/current`,
 			method: 'GET',
@@ -60,6 +64,10 @@ class User {
 	 * User.setCurrent.
 	 * */
 	static login(data, callback) {
+		if (typeof callback !== 'function') {
+			console.error('callback is not a function');
+			return;
+		}
 		createRequest({
 			url: `${this.URL}/login`,
 			method: 'POST',
@@ -71,7 +79,7 @@ class User {
 				}
 				try {
 					if (response && response.user) {
-						this.setCurrent(response.user);
+						User.setCurrent(response.user);
 					}
 					callback(null, response);
 				} catch (error) {
@@ -88,6 +96,10 @@ class User {
 	 * User.setCurrent.
 	 * */
 	static register(data, callback) {
+		if (typeof callback !== 'function') {
+			console.error('callback is not a function');
+			return;
+		}
 		createRequest({
 			url: `${this.URL}/register`,
 			data,
@@ -98,7 +110,7 @@ class User {
 					return;
 				}
 				if (response.success) {
-					this.setCurrent(response.user);
+					User.setCurrent(response.user);
 				}
 				callback(null, response);
 			}
@@ -110,6 +122,10 @@ class User {
 	 * выхода необходимо вызвать метод User.unsetCurrent
 	 * */
 	static logout(callback) {
+		if (typeof callback !== 'function') {
+			console.error('callback is not a function');
+			return;
+		}
 		createRequest({
 			url: `${this.URL}/logout`,
 			method: 'POST',
@@ -119,7 +135,7 @@ class User {
 					return;
 				}
 				if (response && response.success) {
-					this.unsetCurrent();
+					User.unsetCurrent();
 				}
 				callback(null, response);
 			}

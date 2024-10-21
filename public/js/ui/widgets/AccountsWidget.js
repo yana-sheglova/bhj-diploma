@@ -31,8 +31,12 @@ class AccountsWidget {
    * */
   registerEvents() {
     this.element.querySelector('.create-account').onclick = () => {
-      let modal = App.getModal('new-account');
-      modal.open();
+      let modal = App.getModal('modal-new-account');
+      if (modal) {
+        modal.open();
+      } else {
+        console.error('Модальное окно не найдено');
+      }
     };
 
     this.element.addEventListener('click', (event) => {
@@ -92,9 +96,13 @@ class AccountsWidget {
       activeAccount.classList.remove('active');
     }
 
-    let selectedAccount = runInThisContext.element.querySelector(`.account[data-id="${accountId}"]`);
-    selectedAccount.classList.add('active');
-    App.showPage( 'transactions', { account_id: accountId });
+    let selectedAccount = this.element.querySelector(`.account[data-id="${accountId}"]`);
+    if (selectedAccount) {
+      selectedAccount.classList.add('active');
+      App.showPage( 'transactions', { account_id: accountId });
+    } else {
+      console.error('Счет не найден');
+    }
   }
 
   /**

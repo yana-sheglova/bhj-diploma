@@ -9,6 +9,9 @@ function createRequest({
 	method = 'GET',
 	callback
 }) {
+	if (typeof callback !== 'function') {
+		throw new Error('callback is not a function');
+	}
 	if (!url) {
 		return callback(new Error('URL не указан'));
 	}
