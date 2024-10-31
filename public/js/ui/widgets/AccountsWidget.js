@@ -30,14 +30,16 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    this.element.querySelector('.create-account').onclick = () => {
-      let modal = App.getModal('modal-new-account');
-      if (modal) {
-        modal.open();
-      } else {
-        console.error('Модальное окно не найдено');
-      }
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      this.element.querySelector('.create-account').onclick = () => {
+        let modal = App.getModal('createAccount');
+        if (modal) {
+          modal.open();
+        } else {
+          console.error('Модальное окно не найдено');
+        }
+      };
+    });
 
     this.element.addEventListener('click', (event) => {
       let accountElement = event.target.closest('.account');
@@ -77,7 +79,7 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-    let accounts = this.element.querySelectorAll('.account');
+    const accounts = this.element.querySelectorAll('.account');
     accounts.forEach((account) => {
       this.element.removeChild(account);
     });
@@ -90,13 +92,13 @@ class AccountsWidget {
    * счёта класс .active.
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
-  onSelectAccount(element) {
-    let activeAccount = this.element.querySelector('.account.active');
+  onSelectAccount(accountId) {
+    const activeAccount = this.element.querySelector('.account.active');
     if (activeAccount) {
       activeAccount.classList.remove('active');
     }
 
-    let selectedAccount = this.element.querySelector(`.account[data-id="${accountId}"]`);
+    const selectedAccount = this.element.querySelector(`.account[data-id="${accountId}"]`);
     if (selectedAccount) {
       selectedAccount.classList.add('active');
       App.showPage( 'transactions', { account_id: accountId });
@@ -128,7 +130,7 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
-    let accountHTML = this.getAccountHTML(data);
+    const accountHTML = this.getAccountHTML(data);
     this.element.insertAdjacentHTML('beforeend', accountHTML);
   }
 }

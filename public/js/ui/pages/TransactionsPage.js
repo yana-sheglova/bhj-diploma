@@ -69,6 +69,7 @@ class TransactionsPage {
 					App.updateForms();
 				} else {
 					console.error('Ошибка при удалении счёта:', response.error);
+					alert('Не удалось удалить счёт: ' + response.error);
 				}
 			});
 		}
@@ -87,6 +88,7 @@ class TransactionsPage {
 					this.update();
 				} else {
 					console.error('Ошибка при удалении транзакции:', response.error);
+					alert('Не удалось удалить транзакцию: ' + response.error);
 				}
 			});
 		}
@@ -129,7 +131,11 @@ class TransactionsPage {
 	 * */
 	renderTitle(name) {
 		let titleElement = this.element.querySelector('.content-title');
-		titleElement.textContent = name;
+		if (titleElement) {
+			titleElement.textContent = name;
+		} else {
+			console.error("Элемент '.content-title' не найден.");
+		}
 	}
 
 	/**
@@ -137,6 +143,7 @@ class TransactionsPage {
 	 * в формат «10 марта 2019 г. в 03:20»
 	 * */
 	formatDate(date) {
+		if(!date) return '';
 		const options = {
 			year: 'numeric',
 			month: 'long',
@@ -192,10 +199,10 @@ class TransactionsPage {
 	renderTransactions(data) {
 		let contentElement = this.element.querySelector('.content');
 
-		if (data.lenght === 0) {
+		if (data.length === 0) {
 			contentElement.innerHTML = '<p>Нет транзакций для отображения.</p>';
 			return
 		}
-		contentElement.innerHTML = data.map(item => this.getTransactionHTML(item).join(''));
+		contentElement.innerHTML = data.map(item => this.getTransactionHTML(item)).join('');
 	}
 }

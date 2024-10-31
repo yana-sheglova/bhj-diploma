@@ -122,23 +122,21 @@ class User {
 	 * выхода необходимо вызвать метод User.unsetCurrent
 	 * */
 	static logout(callback) {
-		if (typeof callback !== 'function') {
-			console.error('callback is not a function');
-			return;
-		}
-		createRequest({
-			url: `${this.URL}/logout`,
-			method: 'POST',
-			callback: (err, response) => {
-				if (err) {
-					callback(err);
-					return;
+		return new Promise((resolve, reject) => {
+			createRequest({
+				url: `${this.URL}/logout`,
+				method: 'POST',
+				callback: (err, response) => {
+					if (err) {
+						reject(err);
+						return;
+					}
+					if (response && response.success) {
+						User.unsetCurrent();
+					}
+					resolve(response);
 				}
-				if (response && response.success) {
-					User.unsetCurrent();
-				}
-				callback(null, response);
-			}
+			});
 		});
 	}
 };

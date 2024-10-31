@@ -10,6 +10,7 @@ class CreateAccountForm extends AsyncForm {
    * */
   onSubmit(data) {
     Account.create(data, (response) => {
+      console.log('Ответ сервера:', response);
       if (response && response.success) {
         this.close();
         App.update();

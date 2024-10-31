@@ -66,23 +66,20 @@ class Sidebar {
       });
     } else {
       console.warn('Login button not found.');
-    }
+    };
 
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
-        const response = User.logout();
-        if (response && typeof response.then === 'function') {
-          response.then(response => {
-            if (response.success) {
-              App.setState('init');
-            }
-          }).catch(error => {
-            console.error('Logout error:', error);
-          });
-        } else {
-          console.error('User.logout does not return a promise');
-        }
+        User.logout().then(response => {
+          if(response.success) {
+            App.setState('init');
+          } else {
+            console.error('Logout failed:', response);
+          }
+        }).catch(error => {
+          console.error('Logout error:', error);
+        });
       });
-    }
+    };
   }
 }
