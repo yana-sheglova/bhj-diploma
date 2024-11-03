@@ -27,7 +27,8 @@ class User {
 	 * из локального хранилища
 	 * */
 	static current() {
-		return JSON.parse(localStorage.getItem('user')) || null;
+		const user = localStorage.getItem('user');
+        return user ? JSON.parse(user) : undefined;
 	}
 
 	/**
@@ -40,19 +41,15 @@ class User {
 			return;
 		}
 		createRequest({
-			url: `${this.URL}/current`,
+			url: this.URL + '/current',
 			method: 'GET',
 			callback: (err, response) => {
-				if (err) {
-					callback(err);
-					return;
-				}
 				if (response && response.success) {
 					this.setCurrent(response.user);
 				} else {
 					this.unsetCurrent();
 				}
-				callback(null, response);
+				callback(err, response);
 			}
 		});
 	}
@@ -69,22 +66,14 @@ class User {
 			return;
 		}
 		createRequest({
-			url: `${this.URL}/login`,
+			url: this.URL + '/login',
 			method: 'POST',
-			data,
+			data: data,
 			callback: (err, response) => {
-				if (err) {
-					callback(err);
-					return;
-				}
-				try {
-					if (response && response.user) {
-						User.setCurrent(response.user);
-					}
-					callback(null, response);
-				} catch (error) {
-					callback(new Error(`Ошибка установки текущего пользователя: ${error.message}`));
-				}
+			  if (response && response.user) {
+				this.setCurrent(response.user);
+			  }
+			  callback(err || (response ? null : new Error('Response is null')), response);
 			}
 		});
 	}
@@ -101,18 +90,14 @@ class User {
 			return;
 		}
 		createRequest({
-			url: `${this.URL}/register`,
-			data,
+			url: this.URL + '/register',
+			data: data,
 			method: 'POST',
 			callback: (err, response) => {
-				if (err) {
-					callback(err);
-					return;
-				}
 				if (response.success) {
-					User.setCurrent(response.user);
+					this.setCurrent(response.user);
 				}
-				callback(null, response);
+				callback(err || (response ? null : new Error('Response is null')), response);
 			}
 		});
 	};
@@ -124,7 +109,7 @@ class User {
 	static logout(callback) {
 		return new Promise((resolve, reject) => {
 			createRequest({
-				url: `${this.URL}/logout`,
+				url: this.URL + '/logout',
 				method: 'POST',
 				callback: (err, response) => {
 					if (err) {

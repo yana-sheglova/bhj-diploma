@@ -11,12 +11,16 @@ class CreateAccountForm extends AsyncForm {
   onSubmit(data) {
     Account.create(data, (response) => {
       console.log('Ответ сервера:', response);
-      if (response && response.success) {
-        this.close();
-        App.update();
-        this.element.reset();
+      if (response) {
+        if (response.success) {
+          this.close();
+          App.update();
+          this.element.reset();
+        } else {
+          console.error('Ошибка создания счёта:', response.error || 'Неизвестная ошибка');
+        }
       } else {
-        console.error('Ошибка создания счёта:', response.error);
+        console.error('Ошибка сервера: ответ пустой');
       }
     });
   }

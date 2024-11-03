@@ -29,7 +29,7 @@ class Entity {
 		createRequest({
 			url: this.URL,
 			data: data,
-			method: 'POST',
+			method: 'PUT',
 			callback: (err, response) => {
 				callback ? callback(err, response) : null;
 			}

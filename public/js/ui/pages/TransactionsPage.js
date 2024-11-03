@@ -35,7 +35,6 @@ class TransactionsPage {
 	 * */
 	registerEvents() {
 		let removeAccountBtn = this.element.querySelector('.remove-account');
-		let transactionRemoveBtn = this.element.querySelector('.transaction__remove');
 
 		removeAccountBtn.addEventListener('click', () => {
 			this.removeAccount();
