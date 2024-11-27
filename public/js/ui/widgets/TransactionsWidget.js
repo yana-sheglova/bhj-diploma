@@ -25,16 +25,23 @@ class TransactionsWidget {
    * экземпляра окна
    * */
   registerEvents() {
-    let createIncomeBtn = this.element.querySelector('.create-income-button');
-    let createExpenseBtn = this.element.querySelector('.create-expense-button');
+    const createIncomeBtn = this.element.querySelector('.create-income-button');
+    const createExpenseBtn = this.element.querySelector('.create-expense-button');
+
+    if (!createIncomeBtn) {
+      throw new Error('Кнопка "Новый доход" не найдена');
+    }
+    if (!createExpenseBtn) {
+      throw new Error('Кнопка "Новый расход" не найдена');
+    }
 
     createIncomeBtn.addEventListener('click', () => {
-      let incomeModal = App.getModal('newIncome');
+      const incomeModal = App.getModal('newIncome');
       incomeModal.open();
     });
 
     createExpenseBtn.addEventListener('click', () => {
-      let expenseModal = App.getModal('newExpense');
+      const expenseModal = App.getModal('newExpense');
       expenseModal.open();
     });
   }

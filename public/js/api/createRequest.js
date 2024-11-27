@@ -8,6 +8,7 @@ const createRequest = (options = {}) => {
 	xhr.responseType = 'json';
   
 	const { url, data, method, callback } = options;
+	console.log(`Отправляем ${method} запрос на ${url} с данными:`, data);
   
 	if (method.toUpperCase() === 'GET') {
 		const params = new URLSearchParams(data).toString();

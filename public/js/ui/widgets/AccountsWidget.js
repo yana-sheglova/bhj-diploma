@@ -62,12 +62,15 @@ class AccountsWidget {
    * */
   update() {
     if (User.current()) {
-      Account.list((response) => {
+      Account.list(User.current(), (err, response) => {
         if (response && response.success) {
           this.clear();
           response.data.forEach((account) => {
             this.renderItem(account);
           });
+        }
+        if (err || !response.success) {
+          console.error('Ошибка получения списка счетов:', err || response.error);
         }
       });
     }

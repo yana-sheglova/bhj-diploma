@@ -17,17 +17,27 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
-    Account.list(null, (response) => {
+    Account.list(null, (err, response) => {
+      if (err) {
+        console.error('Ошибка при получении списка счетов:', err);
+        return;
+      }
       if (response && response.success) {
-        let accountSelect = this.element.querySelector('.accounts-select');
-        accountSelect.innerHTML = '';
+        const accountSelect = this.element.querySelector('.accounts-select');
+        if (accountSelect) {
+          accountSelect.innerHTML = '';
 
-        response.data.forEach(account => {
-          let option = document.createElement('option');
-          option.value = account.id;
-          option.textContent = account.name;
-          accountSelect.appendChild(option);
-        });
+          response.data.forEach(account => {
+            const option = document.createElement('option');
+            option.value = account.id;
+            option.textContent = account.name;
+            accountSelect.appendChild(option);
+          });
+        } else {
+          console.error('Элемент .accounts-select не найден');
+        }
+      } else {
+        console.error('Ошибка получения списка счетов:', response.error || 'Неизвестная ошибка');
       }
     });
   }
@@ -39,13 +49,33 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(data) {
-    Transaction.create(data, (response) => {
-      if (esponse && response.success) {
-        this.element.reset();
-        let modal = App.getModal(this.element.dataset.modalId);
-        modal.close();
-        App.update();
-      }
+    Transaction.create(data, (err, response) => {
+        if (err) {
+            console.error('Ошибка при выполнении запроса:', err);
+            return; 
+        }
+
+        if (response) {
+            if (response.success) {
+                this.element.reset();
+
+                const modalId = this.element.closest('.modal').dataset.modalId;
+                console.log('Идентификатор модального окна:', modalId); 
+                const modal = App.getModal(modalId);
+                
+                if (modal) {
+                    modal.close();
+                } else {
+                    console.error('Модальное окно не найдено для ID:', modalId);
+                }
+
+                App.update(); 
+            } else {
+                console.error('Ошибка создания транзакции:', response.error || 'Неизвестная ошибка');
+            }
+        } else {
+            console.error('Ошибка: не был получен ответ от сервера. Ответ равен null или undefined.');
+        }
     });
   }
 }
