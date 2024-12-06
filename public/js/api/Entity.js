@@ -41,20 +41,10 @@ class Entity {
 	 * (в зависимости от того, что наследуется от Entity)
 	 * */
 	static remove(data, callback) {
-		console.log('Удаляем данные:', data);
-		if (!data || (!data.account_id && !data.transaction_id)) {
-			const errorMessage = 'account_id или transaction_id отсутствует в переданных данных';
-			console.error(errorMessage);
-			callback(new Error(errorMessage), null);
-			return;
-		}
-
-		const idToDelete = data.account_id || data.transaction_id;
-
 		createRequest({
-			url: `${this.URL}/${idToDelete}`,
+			url: this.URL,
 			method: 'DELETE',
-			data: {},
+			data: data,
 			callback: (err, response) => {
 				if (err) {
 				    console.error('Ошибка при удалении:', err);
@@ -65,7 +55,7 @@ class Entity {
 					callback(null, response);
 				} else {
 					const errorMessage = response && response.error ? response.error : 'Неизвестная ошибка';
-                    console.error('Ошибка при удалении счёта:', errorMessage);
+                    console.error('Ошибка при удалении:', errorMessage);
                     callback(new Error(errorMessage), null);
 				}
 			}

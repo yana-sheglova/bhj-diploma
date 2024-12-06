@@ -64,17 +64,17 @@ class CreateTransactionForm extends AsyncForm {
                 const modal = App.getModal(modalId);
                 
                 if (modal) {
-                    modal.close();
+                  modal.close();
                 } else {
-                    console.error('Модальное окно не найдено для ID:', modalId);
+                  console.error('Модальное окно не найдено для ID:', modalId);
                 }
 
                 App.update(); 
             } else {
-                console.error('Ошибка создания транзакции:', response.error || 'Неизвестная ошибка');
+              console.error('Ошибка создания транзакции:', response.error || 'Неизвестная ошибка');
             }
         } else {
-            console.error('Ошибка: не был получен ответ от сервера. Ответ равен null или undefined.');
+          console.error('Ошибка: не был получен ответ от сервера. Ответ равен null или undefined.');
         }
     });
   }

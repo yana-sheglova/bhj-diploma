@@ -61,16 +61,6 @@
       "name": "счет2",
       "user_id": "ah1xdfsm2t8xnih",
       "id": "ah1xbnwm3r0j9q9"
-    },
-    {
-      "name": "Счет1",
-      "user_id": "ah1x1ngm3x4dw8f",
-      "id": "ah1x2pgm3x4jv3t"
-    },
-    {
-      "name": "Счет2",
-      "user_id": "ah1x1ngm3x4dw8f",
-      "id": "ah1xeqcm3x8xegq"
     }
   ],
   "transactions": [
@@ -280,51 +270,6 @@
       "account_id": "ah1xbnwm3r0j9q9",
       "user_id": "ah1xdfsm2t8xnih",
       "created_at": "2024-11-21T16:30:01.164Z"
-    },
-    {
-      "id": "ah1x4w0m3x4kutl",
-      "type": "income",
-      "name": "зп",
-      "sum": 1000,
-      "account_id": "ah1x2pgm3x4jv3t",
-      "user_id": "ah1x1ngm3x4dw8f",
-      "created_at": "2024-11-25T14:30:32.456Z"
-    },
-    {
-      "id": "ah1xc40m3x8nu1d",
-      "type": "expense",
-      "name": "еда",
-      "sum": 200,
-      "account_id": "ah1x2pgm3x4jv3t",
-      "user_id": "ah1x1ngm3x4dw8f",
-      "created_at": "2024-11-25T16:24:49.872Z"
-    },
-    {
-      "id": "ah1x5v0m3x8wmz9",
-      "type": "expense",
-      "name": "еда",
-      "sum": 200,
-      "account_id": "ah1x2pgm3x4jv3t",
-      "user_id": "ah1x1ngm3x4dw8f",
-      "created_at": "2024-11-25T16:31:40.628Z"
-    },
-    {
-      "id": "ah1xcwgm3x9v7ii",
-      "type": "expense",
-      "name": "вода",
-      "sum": 100,
-      "account_id": "ah1x2pgm3x4jv3t",
-      "user_id": "ah1x1ngm3x4dw8f",
-      "created_at": "2024-11-25T16:58:33.545Z"
-    },
-    {
-      "id": "ah1x1mgm4b1aipx",
-      "type": "income",
-      "name": "зп",
-      "sum": 50000,
-      "account_id": "ah1xeqcm3x8xegq",
-      "user_id": "ah1x1ngm3x4dw8f",
-      "created_at": "2024-12-05T08:07:17.828Z"
     }
   ]
 }

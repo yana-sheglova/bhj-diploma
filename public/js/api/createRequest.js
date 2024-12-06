@@ -16,18 +16,18 @@ const createRequest = (options = {}) => {
 	    xhr.send();
 	} else {
 	    const formData = new FormData();
-	    for (const key in data) {
-		  formData.append(key, data[key]);
+	    for (const key in options.data) {
+		    formData.append(key, (options.data)[key]);
 	    }
-	    xhr.open(method, url);
+	    xhr.open(options.method, options.url);
 	    xhr.send(formData); 
 	}
   
 	xhr.onload = () => {
 	  if (xhr.status >= 200 && xhr.status < 300) {
-		  callback(null, xhr.response);
+		    callback(null, xhr.response);
 	  } else {
-		  callback(new Error(`Ошибка: ${xhr.status}`), null);
+		    callback(new Error(`Ошибка: ${xhr.status}`), null);
 	  }
 	};
   

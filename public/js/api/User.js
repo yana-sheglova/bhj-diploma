@@ -70,10 +70,10 @@ class User {
 			method: 'POST',
 			data: data,
 			callback: (err, response) => {
-			  if (response && response.user) {
-				this.setCurrent(response.user);
-			  }
-			  callback(err || (response ? null : new Error('Response is null')), response);
+			    if (response && response.user) {
+			        this.setCurrent(response.user);
+			    }
+			    callback(err || (response ? null : new Error('Response is null')), response);
 			}
 		});
 	}
