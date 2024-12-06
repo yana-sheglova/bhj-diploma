@@ -316,6 +316,15 @@
       "account_id": "ah1x2pgm3x4jv3t",
       "user_id": "ah1x1ngm3x4dw8f",
       "created_at": "2024-11-25T16:58:33.545Z"
+    },
+    {
+      "id": "ah1x1mgm4b1aipx",
+      "type": "income",
+      "name": "зп",
+      "sum": 50000,
+      "account_id": "ah1xeqcm3x8xegq",
+      "user_id": "ah1x1ngm3x4dw8f",
+      "created_at": "2024-12-05T08:07:17.828Z"
     }
   ]
 }

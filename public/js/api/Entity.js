@@ -9,10 +9,10 @@ class Entity {
 	 * Это могут быть счета или доходы/расходы
 	 * (в зависимости от того, что наследуется от Entity)
 	 * */
-	static list(data, callback) {
+	static list(accountId, callback) {
 		createRequest({
 			url: this.URL,
-			data: data,
+			data: { account_id: accountId },
 			method: 'GET',
 			callback: (err, response) => {
 				callback ? callback(err, response) : null;
@@ -42,16 +42,19 @@ class Entity {
 	 * */
 	static remove(data, callback) {
 		console.log('Удаляем данные:', data);
-		if (!data || !data.account_id) {
-			const errorMessage = 'account_id отсутствует в переданных данных';
+		if (!data || (!data.account_id && !data.transaction_id)) {
+			const errorMessage = 'account_id или transaction_id отсутствует в переданных данных';
 			console.error(errorMessage);
 			callback(new Error(errorMessage), null);
 			return;
 		}
 
+		const idToDelete = data.account_id || data.transaction_id;
+
 		createRequest({
-			url: this.URL + '/' + data.account_id,
+			url: `${this.URL}/${idToDelete}`,
 			method: 'DELETE',
+			data: {},
 			callback: (err, response) => {
 				if (err) {
 				    console.error('Ошибка при удалении:', err);

@@ -96,7 +96,7 @@ class TransactionsPage {
 	 * */
 	removeTransaction(transactionId) {
 		if (confirm("Вы действительно хотите удалить эту транзакцию?")) {
-			Transaction.remove(transactionId, (err, response) => {
+			Transaction.remove({ transaction_id: transactionId }, (err, response) => {
 				if (err) {
 					console.error('Ошибка при удалении транзакции:', err);
                     alert('Не удалось удалить транзакцию: ' + err.message);
@@ -239,11 +239,11 @@ class TransactionsPage {
 	renderTransactions(data) {
 		const contentElement = this.element.querySelector('.content');
 
-		if (!Array.isArray(data) || data.length === 0) {
+		if (!data || !Array.isArray(data.data) || data.data.length === 0) {
 			contentElement.innerHTML = '<p>Нет транзакций для отображения.</p>';
 			return
 		}
-		const transactionsHTML = data.map(item => this.getTransactionHTML(item)).join('');
-		contentElement.innerHTML = transactionsHTML;
+		const transactionsHTML = data.data.map(item => this.getTransactionHTML(item));
+		contentElement.innerHTML = transactionsHTML.join('');
 	}
 }
